@@ -1,0 +1,12 @@
+    A)  Coroutinen ermöglichen asynchrone Aufgaben, ohne den Haupt-Thread zu blockieren, was die App reaktionsfähig hält.
+        Der Code bleibt übersichtlich und lesbar, da asynchrone Logik sequenziell geschrieben werden kann.
+
+    B)  Dispatchers.IO ist für I/O-intensive Aufgaben wie Netzwerkoperationen optimiert.
+        Er entlastet den Haupt-Thread und sorgt für effiziente Thread-Nutzung.
+
+    C)  Hintergrundmusikplayer: Spielt Musik weiter, auch wenn die App minimiert ist.
+        Standortverfolgung: Verfolgt den Standort für Navigation oder Fitness, auch im Hintergrund.
+
+    D)  Coroutinen verwalten asynchrone Aufgaben effizient, während Services kontinuierlich im Hintergrund laufen.
+        Beispiel: Der PopupService nutzt Coroutinen, um Timer-Daten aus dem DataStore abzurufen und Benachrichtigungen zu planen.
+

@@ -23,6 +23,12 @@ import java.util.Locale
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jetpackcompose.ui.components.SearchBarSample
 
+/**
+ * Displays the current weather data for a given city.
+ *
+ * @param currentWeather The [WeatherData] object containing current weather information.
+ * @param iconUrl The URL of the weather icon to be displayed.
+ */
 @Composable
 fun CurrentWeatherView(currentWeather: WeatherData?, iconUrl: String?) {
 
@@ -184,7 +190,12 @@ fun CurrentWeatherView(currentWeather: WeatherData?, iconUrl: String?) {
         )
     }
 }
-
+/**
+ * Converts a Unix timestamp to a human-readable time format.
+ *
+ * @param timestamp The Unix timestamp to convert.
+ * @return A formatted time string in "HH:mm" format.
+ */
 fun convertUnixToTime(timestamp: Long): String {
     val date = Date(timestamp * 1000)
     val format = SimpleDateFormat("HH:mm", Locale.getDefault())

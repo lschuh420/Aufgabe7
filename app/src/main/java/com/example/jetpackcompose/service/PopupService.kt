@@ -31,29 +31,32 @@ class PopupService : Service() {
             updateTimerOption(newTimerOption)
         }
     }
-
+    /**
+     * Initializes the service and starts it as a foreground service.
+     * Sets up a notification channel and registers required receivers.
+     */
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
 
-
-        ////////////////////////////////////
-
-        //TODO starte den Service hier
-
-        ////////////////////////////////////
-
+        val notification = getNotification("Popup Service running")
+        startForeground(1, notification)
 
         registerUpdateReceiver()
         initializeTimerFromSettings()
     }
 
+    /**
+     * Stops the service and cleans up resources such as handlers and receivers.
+     */
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(showNotificationRunnable)
         unregisterReceiver(updateReceiver)
     }
-
+    /**
+     * Handles the logic to show notifications periodically based on a timer.
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (delayMillis != -1L) {
             handler.removeCallbacks(showNotificationRunnable)
@@ -128,7 +131,11 @@ class PopupService : Service() {
         }
     }
 
-
+    /**
+     * Sends a notification with a given message.
+     *
+     * @param message The content of the notification.
+     */
     private fun sendNotification(message: String) {
         if (ActivityCompat.checkSelfPermission(
                 this@PopupService,
@@ -162,7 +169,10 @@ class PopupService : Service() {
             .setAutoCancel(true)
             .build()
     }
-
+    /**
+     * Creates a notification channel for the service.
+     * Required for API level 26 and above.
+     */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(

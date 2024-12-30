@@ -39,7 +39,13 @@ object WeatherApiService {
             @Query("units") units: String = "metric"
         ): retrofit2.Response<ForecastData>
     }
-
+    /**
+     * Fetches the current weather data for a given city.
+     *
+     * @param city The name of the city for which to fetch weather data.
+     * @param apiKey The API key to authenticate the request.
+     * @return A [WeatherData] object containing the current weather information, or null if the request fails.
+     */
     suspend fun fetchWeather(city: String, apiKey: String): WeatherData? {
         return try {
             withContext(Dispatchers.Default) {
@@ -57,10 +63,27 @@ object WeatherApiService {
         }
     }
 
-
-    ////////////////////////////////////
-
-    // TODO: Methode fetchForecast implementieren, um die Wettervorhersage abzurufen.
-
-    ////////////////////////////////////
+    /**
+     * Fetches the weather forecast data for a given city.
+     *
+     * @param city The name of the city for which to fetch forecast data.
+     * @param apiKey The API key to authenticate the request.
+     * @return A [ForecastData] object containing the forecast information, or null if the request fails.
+     */
+    suspend fun fetchForecast(city: String, apiKey: String): ForecastData? {
+        return try {
+            withContext(Dispatchers.Default) {
+                val response = api.fetchForecast(city, apiKey)
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("WeatherApiService", "Failed to fetch data: ${response.code()}")
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("WeatherApiService", "Error fetching data: ${e.message}")
+            null
+        }
+    }
 }

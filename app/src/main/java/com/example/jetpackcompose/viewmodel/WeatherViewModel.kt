@@ -22,7 +22,12 @@ class WeatherViewModel : ViewModel() {
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> get() = _errorMessage
-
+    /**
+     * Fetches the current weather data and updates the view state.
+     *
+     * @param city The name of the city for which to fetch weather data.
+     * @param apiKey The API key to authenticate the request.
+     */
     fun fetchWeatherData(city: String, apiKey: String) {
         viewModelScope.launch {
             try {
@@ -39,17 +44,33 @@ class WeatherViewModel : ViewModel() {
             }
         }
     }
-
+    /**
+     * Fetches the weather forecast data and updates the view state.
+     *
+     * @param city The name of the city for which to fetch forecast data.
+     * @param apiKey The API key to authenticate the request.
+     */
     fun fetchForecastData(city: String, apiKey: String) {
-
-        ////////////////////////////////////
-
-        //Todo
-
-        ////////////////////////////////////
-
+        viewModelScope.launch {
+            try {
+                val forecastResponse = WeatherApiService.fetchForecast(city, apiKey)
+                if (forecastResponse != null) {
+                    _forecast.value = forecastResponse.list
+                    _errorMessage.value = null
+                } else {
+                    _errorMessage.value = "Failed to fetch forecast. Please check your API key or city name."
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "An error occurred: ${e.localizedMessage}"
+            }
+        }
     }
 
+    /**
+     * Updates the URL for the weather icon based on the provided icon ID.
+     *
+     * @param iconId The ID of the weather icon to be displayed.
+     */
     private fun fetchWeatherIcon(iconId: String) {
         if (iconId.isNotEmpty()) {
             _iconUrl.value = "https://openweathermap.org/img/wn/$iconId@2x.png"

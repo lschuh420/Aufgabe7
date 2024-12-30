@@ -12,18 +12,22 @@ import com.example.jetpackcompose.viewmodel.PopupServiceManager
 class MainActivity : ComponentActivity() {
 
     private val popupServiceManager = PopupServiceManager(this)
-
+    /**
+     * The entry point of the application. Handles the setup and initialization of the app.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //handlePopupService()      // Todo Uncomment this line
+        handlePopupService()
 
         setContent {
             val viewModel: WeatherViewModel = viewModel()
             WeatherApp(viewModel)
         }
     }
-
+    /**
+     * Handles starting the popup service with proper permissions.
+     */
     private fun handlePopupService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             popupServiceManager.requestPermission()

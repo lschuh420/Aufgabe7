@@ -17,7 +17,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jetpackcompose.viewmodel.WeatherViewModel
 import com.example.jetpackcompose.ui.components.SearchBarSample
 import com.example.jetpackcompose.ui.components.WeatherCard
-
+/**
+ * Displays the weather forecast for a given city in a list format.
+ *
+ * @param forecast A list of [ForecastItem] objects representing the forecast data.
+ */
 @Composable
 fun ForecastWeatherView(forecast: List<ForecastItem>) {
     val context = LocalContext.current
@@ -107,13 +111,11 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ////////////////////////////////////
-
-                //TODO Zeige die Wettervorhersage in dieser Liste an (nutze die WeatherCard Komponente)
-                // Der Text unten darf entfernt werden.
-
-                ////////////////////////////////////
+                items(forecast.size) { index ->
+                    WeatherCard(forecast[index])
+                }
             }
+
 
         }
 
